@@ -3,15 +3,15 @@ package doublyLinkedList
 import "errors"
 
 type DoublyLinkedList struct {
-	head *container
-	tail *container
+	Head *Container
+	Tail *Container
 	size int
 }
 
-type container struct {
-	value interface{}
-	next  *container
-	prev  *container
+type Container struct {
+	Value interface{}
+	next  *Container
+	prev  *Container
 }
 
 func NewDoublyLinkedList() *DoublyLinkedList {
@@ -19,26 +19,25 @@ func NewDoublyLinkedList() *DoublyLinkedList {
 }
 
 func (d *DoublyLinkedList) Append(value interface{}) error {
-	node := &container{
-		value: value,
+	node := &Container{
+		Value: value,
 	}
 
 	//If linked list is empty
 	if d.IsEmpty() {
 		d.initialize(node)
+	} else {
+		node.prev = d.Tail
+		d.Tail.next = node
+		d.Tail = node
 	}
-
 	d.size++
-	d.tail.next = node
-	node.prev = d.tail
-	d.tail = node
-
 	return nil
 }
 
 func (d *DoublyLinkedList) Prepend(value interface{}) error {
-	node := &container{
-		value: value,
+	node := &Container{
+		Value: value,
 	}
 
 	//If linked list is empty
@@ -48,15 +47,15 @@ func (d *DoublyLinkedList) Prepend(value interface{}) error {
 	}
 
 	d.size++
-	node.next = d.head
-	d.head.prev = node
-	d.head = node
+	node.next = d.Head
+	d.Head.prev = node
+	d.Head = node
 
 	return nil
 }
 
 func (d *DoublyLinkedList) Get(index int) (interface{}, error) {
-	node := d.head
+	node := d.Head
 	i := 0
 	for i < index {
 		node = node.next
@@ -67,26 +66,52 @@ func (d *DoublyLinkedList) Get(index int) (interface{}, error) {
 		}
 	}
 
-	return node.value, nil
+	return node.Value, nil
 }
 
 func (d *DoublyLinkedList) ListAll() []interface{} {
-	node := d.head
+	node := d.Head
 	resp := []interface{}{}
 
 	for node != nil {
-		resp = append(resp, node.value)
+		resp = append(resp, node.Value)
 	}
 
 	return resp
+}
+
+func (d *DoublyLinkedList) Delete(node *Container) error {
+	prev := node.prev
+	next := node.next
+
+	//When there is only one element in dll
+	//When it's Head
+	//When it's Tail
+	//When it's in the middle
+	if d.size == 1 {
+		d.Head = nil
+		d.Tail = nil
+	} else if prev == nil {
+		d.Head = next
+		next.prev = nil
+	} else if next == nil {
+		d.Tail = prev
+		prev.next = nil
+	} else {
+		prev.next = next
+		next.prev = prev
+	}
+
+	d.size--
+
+	return nil
 }
 
 func (d *DoublyLinkedList) IsEmpty() bool {
 	return d.size == 0
 }
 
-func (d *DoublyLinkedList) initialize(node *container) {
-	d.size++
-	d.head = node
-	d.tail = node
+func (d *DoublyLinkedList) initialize(node *Container) {
+	d.Head = node
+	d.Tail = node
 }
