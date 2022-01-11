@@ -3,6 +3,8 @@ package hashMapStorage
 import (
 	"fmt"
 	"testing"
+
+	e "github.com/urishabh12/cache/errors"
 )
 
 func Test_SetAndGetValueUsingIntKey(t *testing.T) {
@@ -55,5 +57,19 @@ func Test_RemoveKey(t *testing.T) {
 	_, err := s.Get("a")
 	if err == nil {
 		t.Fatalf("key present even after removing")
+	}
+}
+
+func Test_StorageFullError(t *testing.T) {
+	s := NewHashMapStorage(0)
+	key := 1
+	err := s.Set(key, "")
+
+	if err == nil {
+		t.Fatalf("should give error when full")
+	}
+
+	if !e.IsStorageFullError(err) {
+		t.Fatalf("should give storage full error")
 	}
 }

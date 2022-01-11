@@ -1,6 +1,6 @@
 package eviction_policy
 
-type eviction_policy interface {
+type EvictionPolicy interface {
 	KeyUsed(key interface{}) error
 	EvictKey() (interface{}, error)
 }

@@ -15,5 +15,9 @@ func NewNotFoundError() NotFoundError {
 }
 
 func IsNotFoundError(err error) bool {
+	if err == nil {
+		return false
+	}
+
 	return err.Error() == error_text_not_found
 }

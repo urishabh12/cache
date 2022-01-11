@@ -15,5 +15,9 @@ func NewStorageFullError() StorageFullError {
 }
 
 func IsStorageFullError(err error) bool {
+	if err == nil {
+		return false
+	}
+
 	return err.Error() == error_text_storage
 }
