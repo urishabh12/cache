@@ -6,7 +6,7 @@ import (
 )
 
 func Test_SetAndGetValueUsingIntKey(t *testing.T) {
-	s := NewHashMapStorage()
+	s := NewHashMapStorage(10)
 	key := 1
 	value := "test"
 	s.Set(key, value)
@@ -22,7 +22,7 @@ func Test_SetAndGetValueUsingIntKey(t *testing.T) {
 }
 
 func Test_SetAndGetValueUsingStringKey(t *testing.T) {
-	s := NewHashMapStorage()
+	s := NewHashMapStorage(10)
 	key := "1"
 	value := "test"
 	s.Set(key, value)
@@ -38,7 +38,7 @@ func Test_SetAndGetValueUsingStringKey(t *testing.T) {
 }
 
 func Test_AccessInvalidKey(t *testing.T) {
-	s := NewHashMapStorage()
+	s := NewHashMapStorage(10)
 	_, err := s.Get("a")
 
 	if err == nil {
@@ -47,7 +47,7 @@ func Test_AccessInvalidKey(t *testing.T) {
 }
 
 func Test_RemoveKey(t *testing.T) {
-	s := NewHashMapStorage()
+	s := NewHashMapStorage(10)
 	key := 1
 	s.Set(key, "")
 	s.Remove(key)
