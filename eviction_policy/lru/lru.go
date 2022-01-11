@@ -9,14 +9,14 @@ type LRU struct {
 	keyToNode map[interface{}]*d.Container
 }
 
-func NewLRUEviction() LRU {
-	return LRU{
+func NewLRUEviction() *LRU {
+	return &LRU{
 		dll:       d.NewDoublyLinkedList(),
 		keyToNode: make(map[interface{}]*d.Container),
 	}
 }
 
-func (l *LRU) KeyUsed(key interface{}) error {
+func (l LRU) KeyUsed(key interface{}) error {
 	if l.keyToNode[key] != nil {
 		l.dll.Delete(l.keyToNode[key])
 	}
@@ -27,7 +27,7 @@ func (l *LRU) KeyUsed(key interface{}) error {
 	return nil
 }
 
-func (l *LRU) EvictKey() (interface{}, error) {
+func (l LRU) EvictKey() (interface{}, error) {
 	nodeToDelete := l.dll.Head
 	l.dll.Delete(nodeToDelete)
 	delete(l.keyToNode, nodeToDelete.Value)

@@ -11,8 +11,8 @@ type Cache struct {
 	evictionPolicy e.EvictionPolicy
 }
 
-func NewCache(st s.Storage, ep e.EvictionPolicy) *Cache {
-	return &Cache{
+func NewCache(st s.Storage, ep e.EvictionPolicy) Cache {
+	return Cache{
 		storage:        st,
 		evictionPolicy: ep,
 	}

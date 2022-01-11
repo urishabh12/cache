@@ -10,8 +10,8 @@ type HashMapStorage struct {
 	maxSize int
 }
 
-func NewHashMapStorage(size int) HashMapStorage {
-	return HashMapStorage{
+func NewHashMapStorage(size int) *HashMapStorage {
+	return &HashMapStorage{
 		hashMap: make(map[interface{}]interface{}),
 		size:    0,
 		maxSize: size,
